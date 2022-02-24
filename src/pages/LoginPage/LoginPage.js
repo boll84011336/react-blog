@@ -5,6 +5,25 @@ import { login, getMe } from "../../WebAPI";
 import { setAuthToken } from "../../utils";
 import { AuthContext } from "../../contexts";
 
+const Form = styled.form`
+padding:20px;
+text-align:center;
+
+`
+
+const Login = styled.div`
+border: 1px solid rgba(236, 109, 81, 0.5);
+width: 26%;
+margin: 0px auto;
+padding:15px 1px;
+border-radius: 5px
+`
+
+const Input = styled.input`
+  height:30px;
+  padding: 5px;
+  margin: 16px 0;
+`;
 
 const ErrorMessage = styled.div`
   color:red
@@ -36,23 +55,27 @@ export default function LoginPage() {
           return setErrorMessage(response.toString());
         }
         setUser(response.data)
+        console.log(response, "回應")
         Navigate("/");
       })    
     })
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
+      <Login>
       <div>
         username: {" "}
-        <input value={username} onChange={handleInputChange}/>
+        <Input value={username} onChange={handleInputChange}/>
       </div>
       <div>
         password: {" "}
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+        <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
       </div>
-      <button>登入</button>
+      <button className="btn btn-outline-dark btn-sm">登入</button>
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-    </form>
+      </Login>
+    </Form>
+
   );
 }

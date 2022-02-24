@@ -50,10 +50,12 @@ export default function NewPostPage() {
   const [content, setContent] = useState("");
   const Navigate = useNavigate()
 
-
+  //新增文章
   const handleSubmit = (e) => {
     createPost(title, content).then(data => {
-      console.log(data)
+      if(data.ok === 0) {       
+        return alert("請輸入標題及內文")
+      }
       if (data.id) {
         Navigate("/");
       }     
@@ -64,7 +66,7 @@ export default function NewPostPage() {
     <Form onSubmit={handleSubmit}>
       Title:{" "}<TitleInput value={title} onChange={(e) => setTitle(e.target.value)} />
       Content:{" "}<ContentTextarea rows="20" value={content} onChange={(e) => setContent(e.target.value)} />
-      <Button onClick={handleSubmit}>submit</Button>
+      <Button>submit</Button>
     </Form>
   );
 }

@@ -87,7 +87,6 @@ export default function HomePage() {
   useEffect(() => { 
     getPagePosts(page).then(posts => {
       setPosts(posts)
-      console.log(posts)
     });
     window.scrollTo({ 
       top: 0, 

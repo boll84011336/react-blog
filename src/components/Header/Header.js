@@ -28,7 +28,7 @@ const HeaderContainer = styled.div`
 
 const Brand = styled.div`
 font-style:oblique;
-font-size:22px;
+font-size:32px;
 font-weight: bold;
 color:red;
 `;

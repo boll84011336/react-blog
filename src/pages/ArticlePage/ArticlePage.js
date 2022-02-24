@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-
+import { AuthContext } from "../../contexts";
 import { useParams, useNavigate  } from "react-router-dom";
 import { getPost, removePost } from "../../WebAPI";
 
@@ -11,20 +11,42 @@ const Root = styled.div`
 `;
 
 const PostContainer = styled.div`
+  width: 80%;
+  margin: 0 auto;
   border-bottom: 1px solid rgba(0, 12, 34, 0.2);
   padding: 16px;
-  
 `;
 
-const PostTitle = styled.h1``;
+const PostTitle = styled.h3`
+  text-align:center;
+  font-weight: 500;
+  font-family: cursive;
+`;
+
+const PostOther = styled.div`
+  text-align:center;
+`
+
+const PostPeople = styled.p`
+  margin-right:12px;
+  display:inline;;
+  font-weight: 600;
+  color: cadetblue;
+  font-family: 'Lora', 'Times New Roman', serif;
+  font-style: italic;
+`
 
 const PostDate = styled.div`
-  color: rgba(0, 0, 0, 0.8);
+  font-size: 14px;
+  color: #127436;
+  font-style: oblique;
+  display:inline;
 `;
 
 const PostBody = styled.p`
   white-space: pre-wrap;
-  
+  text-align:left;
+  margin-top: 20px;
 `;
 
 const Loading = styled.div`
@@ -41,15 +63,22 @@ const Loading = styled.div`
   background: rgba(0, 0, 0, 0.3);
 `;
 
+
+
 function Post({ post, onDelete }) {
+  const { user } = useContext(AuthContext);
+
   if (!post) return null;
-  return (
+ 
+  return (    
     <PostContainer>
       <PostTitle>{post.title}</PostTitle>
-      <PostDate>{new Date(post.createdAt).toLocaleString()}</PostDate>
-      <PostBody>{post.body}</PostBody> 
-      <button onClick={onDelete}>刪除</button>
-
+      <PostOther>
+        <PostPeople>Posted by {post.user.nickname} on</PostPeople>
+        <PostDate>{new Date(post.createdAt).toLocaleString()}</PostDate>
+        <PostBody>{post.body}</PostBody>             
+        {user && user.nickname ===  post.user.nickname ? <button className="btn btn-dark btn-sm" onClick={onDelete}>刪除</button> : ''}    
+      </PostOther>    
     </PostContainer>
   );
 }
@@ -63,11 +92,11 @@ export default function ArticlePage() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
-
-  const handleDelete = () => {
+  
+  const handleDelete = () => {   
     removePost(id).then(() => {
       navigate('/');
-    });
+    });    
   };
 
   useEffect(() => {
@@ -81,7 +110,7 @@ export default function ArticlePage() {
         setIsLoading(false);
       });
   }, [id]);
-
+ 
   return (
     <Root>
       <Post post={post} onDelete={handleDelete} />

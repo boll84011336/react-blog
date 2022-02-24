@@ -6,8 +6,28 @@ import { setAuthToken } from "../../utils";
 import { AuthContext } from "../../contexts";
 
 
+const Form = styled.form`
+margin:0px auto;
+padding:20px;
+text-align:center;
+`
+
+const Input = styled.input`
+  height:26px;
+  padding: 5px;
+  margin: 16px 0;
+`;
+
 const ErrorMessage = styled.div`
   color:red
+`
+
+const Register = styled.div`
+border: 1px solid rgba(236, 109, 81, 0.5);
+width: 26%;
+margin: 0px auto;
+padding:15px 1px;
+border-radius: 5px
 `
 
 export default function LoginPage() {
@@ -46,22 +66,24 @@ export default function LoginPage() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        nickname: {" "}
-        <input value={nickname} onChange={(e) => setNickname(e.target.value)}/>
-      </div>
-      <div>
-        username: {" "}
-        <input value={username} onChange={(e) => setUsername(e.target.value)}/>
-      </div>
-      <div>
-        password: {" "}
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
-      </div>
-      <button>註冊</button>
-      {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-    </form>
+    <Form onSubmit={handleSubmit}>
+      <Register>
+        <div>
+          nickname: {" "}
+          <Input value={nickname} onChange={(e) => setNickname(e.target.value)}/>
+        </div>
+        <div>
+          username: {" "}
+          <Input value={username} onChange={(e) => setUsername(e.target.value)}/>
+        </div>
+        <div>
+          password: {" "}
+          <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+        </div>
+        <button className="btn btn-outline-dark btn-sm">註冊</button>
+        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+      </Register>
+    </Form>
   );
 }
 
